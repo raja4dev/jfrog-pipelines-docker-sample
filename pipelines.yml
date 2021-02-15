@@ -2,7 +2,7 @@ resources:
   - name: dbp_repo
     type: GitRepo
     configuration:
-      gitProvider: GitHub                      # <-- replace with your integration
+      gitProvider: my_github                       # <-- replace with your integration
       path: raja4dev/jfrog-pipelines-docker-sample    # <-- replace with your repository name
       branches:
         include: master
@@ -10,7 +10,7 @@ resources:
   - name: dbp_image
     type: Image
     configuration:
-      registry: artifactory                                # <-- replace with your artifactory integration
+      registry: art                                # <-- replace with your artifactory integration
       sourceRepository: docker_local               # <-- required if registry is Artifactory
       imageName: rajasekharfree.jfrog.io/docker-local/dbp  # < -- replace with your image path and name
       imageTag: latest
@@ -19,7 +19,7 @@ resources:
   - name: dbp_build_info
     type: BuildInfo
     configuration:
-      sourceArtifactory: artifactory
+      sourceArtifactory: art
       buildName: dbp_build
       buildNumber: 1    
 
@@ -45,7 +45,7 @@ pipelines:
           inputResources:
             - name: dbp_repo
           integrations:
-            - name: artifactory                            # <-- replace with your artifactory integration
+            - name: art                            # <-- replace with your artifactory integration
 
       - name: docker_push
         type: DockerPush
@@ -53,7 +53,7 @@ pipelines:
           affinityGroup: dbp_group
           targetRepository: docker-local
           integrations:
-            - name: artifactory                            # <-- replace with your artifactory integration
+            - name: art                            # <-- replace with your artifactory integration
           inputSteps:
             - name: docker_build
           outputResources:
@@ -72,9 +72,8 @@ pipelines:
         configuration:
           targetRepository: demo-pipelines
           integrations:
-            - name: artifactory
+            - name: art
           inputResources:
             - name: dbp_build_info
           outputResources:
             - name: dbp_promoted_build_info
-
