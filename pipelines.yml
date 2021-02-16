@@ -53,7 +53,7 @@ pipelines:
           affinityGroup: dbp_group
           targetRepository: docker-local
           integrations:
-            - name: art                            # <-- replace with your artifactory integration
+            - name: art                            # <-- replace with your artifactory integration test
           inputSteps:
             - name: docker_build
           outputResources:
